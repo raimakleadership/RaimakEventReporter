@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verizon MDU Event Logger</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+  </head>
+  <body>
+    <div class="fullscreen-wrapper">
+      <form id="mduForm">
+        <!-- STEP 1: Discovery & Prospect Info -->
+        <div class="step active" id="step1">
+          <h2>Prospect Details</h2>
+
+          <div class="form-group">
+            <label>Interested In (Select all that apply):</label>
+            <div class="toggle-group">
+              <input
+                type="checkbox"
+                id="intMobile"
+                name="MobileProspect"
+                value="Yes"
+              />
+              <label for="intMobile">Mobile</label>
+              <input
+                type="checkbox"
+                id="intInternet"
+                name="InternetProspect"
+                value="Yes"
+              />
+              <label for="intInternet">Internet</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              required
+              placeholder="First and Last Name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="cbr">Can Be Reached Number (CBR)</label>
+            <input type="tel" id="cbr" required placeholder="(555) 555-5555" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="prospect@email.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="address">Full Address</label>
+            <input
+              type="text"
+              id="address"
+              required
+              placeholder="Apt number, Building, Street..."
+            />
+          </div>
+
+          <button type="button" class="btn" onclick="nextStep(1, 2)">
+            Next: Sale Outcome &rarr;
+          </button>
+        </div>
+
+        <!-- STEP 2: Sale Outcome & Notes -->
+        <div class="step" id="step2">
+          <h2>Sale Outcome</h2>
+
+          <div class="form-group">
+            <label>Did you close the sale?</label>
+            <div class="toggle-group">
+              <input
+                type="radio"
+                id="closedYes"
+                name="ClosedSale"
+                value="Yes"
+                onchange="handleFlowLogic()"
+              />
+              <label for="closedYes">Yes</label>
+              <input
+                type="radio"
+                id="closedNo"
+                name="ClosedSale"
+                value="No"
+                onchange="handleFlowLogic()"
+              />
+              <label for="closedNo">No</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="generalNotes">General Notes</label>
+            <textarea
+              id="generalNotes"
+              placeholder="Enter any context about this interaction..."
+            ></textarea>
+          </div>
+
+          <div class="form-group hidden" id="creditChallengeGroup">
+            <label>Was the sale affected by a credit challenge?</label>
+            <div class="toggle-group">
+              <input
+                type="radio"
+                id="creditYes"
+                name="CreditChallenged"
+                value="Yes"
+                onchange="handleFlowLogic()"
+              />
+              <label for="creditYes">Yes</label>
+              <input
+                type="radio"
+                id="creditNo"
+                name="CreditChallenged"
+                value="No"
+                onchange="handleFlowLogic()"
+              />
+              <label for="creditNo">No</label>
+            </div>
+          </div>
+
+          <div class="form-group hidden" id="creditNotesGroup">
+            <label for="creditNotes"
+              >Credit Challenge Notes
+              <span style="color: var(--primary)">*</span></label
+            >
+            <textarea
+              id="creditNotes"
+              placeholder="Explain the credit issue here..."
+            ></textarea>
+            <div class="error-text" id="creditError">
+              Notes are required for credit challenges.
+            </div>
+          </div>
+
+          <div class="form-group hidden" id="followUpGroup">
+            <label>Does the CX require a follow-up?</label>
+            <div class="toggle-group">
+              <input
+                type="radio"
+                id="followUpYes"
+                name="FollowUpNeeded"
+                value="Yes"
+                onchange="handleFlowLogic()"
+              />
+              <label for="followUpYes">Yes</label>
+              <input
+                type="radio"
+                id="followUpNo"
+                name="FollowUpNeeded"
+                value="No"
+                onchange="handleFlowLogic()"
+              />
+              <label for="followUpNo">No</label>
+            </div>
+          </div>
+
+          <div class="form-group hidden" id="followUpTimeGroup">
+            <label for="followUpTime">Follow Up Date & Time</label>
+            <!-- Changed type to text and added a placeholder -->
+            <input
+              type="text"
+              id="followUpTime"
+              placeholder="Tap to select date & time"
+            />
+          </div>
+
+          <button type="button" class="btn" onclick="validateStep2()">
+            Next: Event Details &rarr;
+          </button>
+        </div>
+
+        <!-- STEP 3: MDU & Rep Info -->
+        <div class="step" id="step3">
+          <h2>Event Details</h2>
+
+          <div class="form-group">
+            <label for="mduName">MDU Property Name</label>
+            <input
+              type="text"
+              id="mduName"
+              required
+              placeholder="e.g., The Grand Apartments"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="repName">Sales Rep Name</label>
+            <input type="text" id="repName" required placeholder="Your Name" />
+          </div>
+
+          <button type="button" class="btn submit-btn" onclick="submitForm()">
+            Submit Event Data
+          </button>
+        </div>
+
+        <div id="loader">
+          <h2 style="border: none; text-align: center">Syncing...</h2>
+          <p>Securely sending to SharePoint</p>
+        </div>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

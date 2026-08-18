@@ -1,0 +1,207 @@
+:root {
+  --primary: #d52b1e; /* Verizon Red */
+  --text: #111111;
+  --border: #dddddd;
+  --focus: #000000;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #ffffff; /* All white background */
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Replaces the card with a wide, spacious wrapper */
+.fullscreen-wrapper {
+  width: 100%;
+  max-width: 1000px; /* Constrains max width on ultra-wide screens but fills tablets */
+  padding: 5vw 40px;
+  box-sizing: border-box;
+}
+
+/* Step Transitions */
+.step {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.step.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Massive, sleek typography */
+h2 {
+  margin-top: 0;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+}
+
+.form-group {
+  margin-bottom: 35px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+  color: #444;
+}
+
+/* Huge, edge-to-edge sleek inputs */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="datetime-local"],
+textarea {
+  width: 100%;
+  padding: 20px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 1.4rem;
+  box-sizing: border-box;
+  background: #ffffff;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--focus);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Giant Tablet-friendly Button Toggles */
+.toggle-group {
+  display: flex;
+  gap: 15px;
+}
+
+.toggle-group label {
+  flex: 1;
+  text-align: center;
+  background: #f8f8f8;
+  padding: 22px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  transition: all 0.2s;
+  margin: 0;
+}
+
+.toggle-group input[type="radio"],
+.toggle-group input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-group input:checked + label {
+  background: rgba(213, 43, 30, 0.05);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Full-width massive action buttons */
+.btn {
+  width: 100%;
+  padding: 25px;
+  background-color: var(--text);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.btn:hover {
+  background-color: #333;
+}
+.btn.submit-btn {
+  background-color: var(--primary);
+}
+.btn.submit-btn:hover {
+  background-color: #b02318;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.error-text {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-top: 10px;
+  font-weight: 600;
+  display: none;
+}
+
+/* Loader */
+#loader {
+  display: none;
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 100px 0;
+  color: #555;
+}
+
+/* --- FLATPICKR CUSTOMIZATION FOR TABLETS --- */
+.flatpickr-calendar {
+  font-family: inherit;
+  width: 350px; /* Make it wider for tablet fingers */
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.flatpickr-time input:hover,
+.flatpickr-time .flatpickr-am-pm:hover,
+.flatpickr-time input:focus,
+.flatpickr-time .flatpickr-am-pm:focus {
+  background: #f4f4f4;
+}
+
+.flatpickr-time-separator,
+.flatpickr-time .flatpickr-am-pm {
+  color: var(--text);
+}
