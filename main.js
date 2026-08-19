@@ -1,6 +1,7 @@
 // --- CONFIGURATION ---
 // PASTE YOUR POWER AUTOMATE WEBHOOK URL HERE
-const WEBHOOK_URL = "https://prod-xx.westus.logic.azure.com:443/workflows/...";
+const WEBHOOK_URL =
+  "https://default39e141900b234ecd99f9606ad12158.81.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/19/workflows/5f672e45aff34f59a1761d36878a20d5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=INLnfdl7DCYgiO7fpFzLhK4HH03DHxhoJTVafs_mvtY";
 
 // --- INITIALIZE FLATPICKR ---
 // We wrap this in DOMContentLoaded to ensure the HTML exists before attaching
