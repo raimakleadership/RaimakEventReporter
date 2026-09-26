@@ -3,9 +3,29 @@
 const WEBHOOK_URL =
   "https://default39e141900b234ecd99f9606ad12158.81.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/19/workflows/5f672e45aff34f59a1761d36878a20d5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=INLnfdl7DCYgiO7fpFzLhK4HH03DHxhoJTVafs_mvtY";
 
-// --- INITIALIZE FLATPICKR ---
+// Global variable to hold the state from the URL
+let regionalState = "Unknown";
+
+// --- INITIALIZATION ---
 // We wrap this in DOMContentLoaded to ensure the HTML exists before attaching
 document.addEventListener("DOMContentLoaded", function () {
+  // 1. URL ROUTING: Read the URL (e.g., ?state=FL)
+  const urlParams = new URLSearchParams(window.location.search);
+  const stateParam = urlParams.get("state");
+  const titleEl = document.getElementById("appTitle");
+
+  // If a state is in the URL, update the browser tab title and the variable
+  if (stateParam) {
+    regionalState = stateParam.toUpperCase();
+    document.title = `${regionalState} MDU Event Logger`;
+    if (titleEl) titleEl.innerText = `${regionalState} MDU Event Logger`;
+  } else {
+    // Fallback just in case a rep uses a naked link without the ?state= part
+    document.title = "MDU Event Logger (No State Assigned)";
+    if (titleEl) titleEl.innerText = "MDU Event Logger (No State Assigned)";
+  }
+
+  // 2. INITIALIZE FLATPICKR
   flatpickr("#followUpTime", {
     enableTime: true, // Adds the time picker at the bottom
     dateFormat: "Y-m-d\\TH:i:S\\Z", // Formats the date to match SharePoint/ISO standard
@@ -15,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     disableMobile: "true", // CRITICAL: Forces the beautiful UI on tablets instead of native
   });
 });
+
 // --- TRANSITION LOGIC ---
 function nextStep(current, next) {
   const currentStepEl = document.getElementById(`step${current}`);
@@ -140,6 +161,7 @@ async function submitForm() {
     SalesRepName: document.getElementById("repName").value,
     MDUPropertyName: document.getElementById("mduName").value,
     SubmissionDate: new Date().toISOString(),
+    LocationName: regionalState, // Added the dynamically pulled State here!
   };
 
   try {
